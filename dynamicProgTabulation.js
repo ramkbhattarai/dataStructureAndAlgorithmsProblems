@@ -180,4 +180,79 @@ the answer is guaranteed to fit into signed 32-bit integer
      }
      memo[key] =  total;
      return memo[key];
- }
+ } 
+
+ /**
+  * Given a m x n grid filled with non-negative numbers,
+  *  find a path from top left to bottom right which minimizes the sum of all numbers
+  *  along its path.
+
+Note: You can only move either down or right at any point in time.
+
+Example:
+
+Input:
+[
+  [1,3,1],
+  [1,5,1],
+  [4,2,1]
+]
+Output: 7
+Explanation: Because the path 1→3→1→1→1 minimizes the sum.
+  */
+
+
+  function minSum (arr){
+      let m = arr.length;
+      let n = arr[0].length;
+    let table = new Array(m).fill().map(() => new Array(n).fill(Infinity));
+    // this is tabulation and we fill each box with infinity so that any number 
+    // that fill will be less than that;
+    table[0][0] = arr[0][0];
+    for(let i = 0; i < m; i++){
+        for(let j =0; j < n; j++){
+           if(j < n-1) table[i][j + 1] = Math.min(table[i][j]+ arr[i][j+1],table[i][j+1]);
+           if (i < m-1) table[i+1][j] = Math.min(table[i][j] + arr[i+1][j], table[i+1][j]);
+
+        }
+    }
+    return table[m-1][n-1];
+  }
+
+  /**
+   * You are climbing a stair case. It takes n steps to reach to the top.
+
+Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+Note: Given n will be a positive integer.
+
+Example 1:
+
+Input: 2
+Output: 2
+Explanation: There are two ways to climb to the top.
+1. 1 step + 1 step
+2. 2 steps
+Example 2:
+
+Input: 3
+Output: 3
+Explanation: There are three ways to climb to the top.
+1. 1 step + 1 step + 1 step
+2. 1 step + 2 steps
+3. 2 steps + 1 step
+   */
+
+   function climbingStairs(n){
+            // there are two ways to climb stairs
+            //1. 1 step from step[i-1]
+            // 2. 2 steps from step[i-2]
+
+            let step = [];
+            step[0] = 1;
+            step[1] = 1;
+            for(let i = 2; i <= n; i++){
+                step[i] = step[i-1]+step[i-2];
+            }
+            return step[n];
+   }
