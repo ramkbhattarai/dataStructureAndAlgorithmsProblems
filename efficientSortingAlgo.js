@@ -45,19 +45,21 @@ function quickSort(arr){
      )
  }
   
- function getIntLength(num){
-     let count = 0;
-     while(num){
-         num /= 10;
-         count++;
-     }
-     return count;
- }
+//  function getIntLength(num){
+//     //  let count = 0;
+//     //  while(num){
+//     //      num /= 10;
+//     //      count++;
+//     //  }
+//     //  return count;
+//     return String(num).length
+//  }
 
  function getMaxDigits(nums){
      let maxDigits = 0;
      for(let i = 0; i < nums.length; i++){
-         maxDigits = Math.max(maxDigits, getIntLength(nums[i]));
+        //  maxDigits = Math.max(maxDigits, getIntLength(nums[i]));
+        maxDigits = Math.max(maxDigits, String(nums[i]).length);
      }
      return maxDigits;
  }
@@ -76,5 +78,25 @@ function quickSort(arr){
      return arr;
  }
 
-console.log(radixSort([10, 8, 10, 5, 30, 2, 4, 19, 6, 7]));
+// console.log(radixSort([10, 8, 10, 5, 30, 2, 4, 19, 6, 7]));
 
+/**
+ * CountingSort
+ */
+
+
+ function countingSort(arr, max){
+    let counter = new Array(max + 1).fill(0);
+    for(let i = 0; i < arr.length; i++){
+        counter[arr[i]] += 1;
+    }
+    let result = []
+    for(let i = 0; i < counter.length; i++){
+        while(counter[i] > 0){
+            result.push(i);
+            counter[i] -=1;
+        }
+    }
+    return result;
+ }
+console.log(countingSort([10, 8, 10, 5, 30, 2, 4, 19, 6, 7], 30));
