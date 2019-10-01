@@ -34,8 +34,47 @@ function quickSort(arr){
      }
      return merged;
  }
-console.log(mergeSort([1, 8, 9, 5, 3, 2, 4, 0, 6, 7]));
+// console.log(mergeSort([1, 8, 9, 5, 3, 2, 4, 0, 6, 7]));
 
 /**
  * RadixSort
  */
+ function getDigitFrom(num, place){
+     return Math.floor(
+        (Math.abs(num) / Math.pow(10, place)) % 10
+     )
+ }
+  
+ function getIntLength(num){
+     let count = 0;
+     while(num){
+         num /= 10;
+         count++;
+     }
+     return count;
+ }
+
+ function getMaxDigits(nums){
+     let maxDigits = 0;
+     for(let i = 0; i < nums.length; i++){
+         maxDigits = Math.max(maxDigits, getIntLength(nums[i]));
+     }
+     return maxDigits;
+ }
+ function radixSort(arr){
+     if(!Array.isArray(arr)) return null;
+     let maxDigits = getMaxDigits(arr);
+     for(let i = 0; i < maxDigits; i++){
+        //  let buckets = Array.from({length: 10}, () => []);
+        let buckets = new Array(10).fill().map(() => []);
+        for(let j = 0; j < arr.length; j++){
+            let digit = getDigitFrom(arr[j], i);
+            buckets[digit].push(arr[j]);
+        }
+        arr = [].concat(...buckets)
+     }
+     return arr;
+ }
+
+console.log(radixSort([10, 8, 10, 5, 30, 2, 4, 19, 6, 7]));
+
