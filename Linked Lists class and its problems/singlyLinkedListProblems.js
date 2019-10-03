@@ -160,15 +160,29 @@ function linkedListIntersection(list1, list2){
 // (3) Do not mutate the linked list or it's nodes in any way.
 
 function hasCycle(list){
-    let fast = list.head;
-    let slow =list.head;
-    let pause = true;
-    while(fast = fast.next){
-        if(fast === slow) return true;
-        slow = pause ? slow : slow.next;
-        pause = true;
+    let head = list.head;
+    if (!head) return false;
+    if (!head.next) return false;
+    let fast = head.next.next;
+    let slow = head.next;
+
+    while (fast !== slow) {
+        if (!fast || !fast.next) return false;
+
+        slow = slow.next;
+        fast = fast.next.next;
     }
-    return false;
+    return true;
+
+    // let fast = list.head;
+    // let slow =list.head;
+    // let pause = true;
+    // while(fast = fast.next){
+    //     if(fast === slow) return true;
+    //     slow = pause ? slow : slow.next;
+    //     pause = true;
+    // }
+    // return false;
 } 
 
 /**
@@ -189,6 +203,8 @@ Note: Do not modify the linked list.
      }
 
      // if code reaches here there's a cycle;
+     // the idea is to set fast at the point of intersection and slow again to head
+     // now when they meet it will be always at the start of the loop.(some therom)
      slow = head;
      while (slow !== fast){
          slow = slow.next;
