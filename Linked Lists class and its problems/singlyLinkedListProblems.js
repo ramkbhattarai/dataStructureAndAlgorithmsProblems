@@ -83,3 +83,117 @@ Output: 1->4->3->2->5->NULL
      tail.next = curr;
      return head;
  }
+
+ // Write a function linkedListIntersection that returns the node at which the 
+// intersection of two linked lists begins, or null if there is no such 
+// intersection.
+//
+// ---------- 
+// Example 1:
+// ----------
+// 
+// Given the following two linked lists, list1 and list2, 
+// linkedListIntersection(list1,list2) should return D 
+// as the node of intersection.
+// 
+//    A → B → C
+//             ↘
+//               D → E → F
+//             ↗
+//        X → Y
+//
+// ---------- 
+// Example 2:
+// ----------
+//
+// Given the following two linked lists, list1 and list2, 
+// linkedListIntersection(list1, list2) should return null 
+// as there is no point of intersection.
+// 
+//    A → B → C → D
+//
+//    X → Y → Z
+// 
+// -----------
+
+function getLength(list){
+    let node = list.head;
+    let i = 0;
+    while(node){
+        i++;
+        node = node.next;
+    }
+    return i;
+
+}
+
+function linkedListIntersection(list1, list2){
+    let length1 = getLength(list1);
+    let length2 = getLength(list2);
+    let long = length1 >= length2 ? list1.head : list2.head;
+    let short = length1 <= length2 ? list1.head : list2.head;
+    let diff = Math.abs(length1 - length2);
+
+    while(long && short){
+        if(diff > 0){
+            long = long.next;
+            diff--;
+            continue;
+        }
+        if(long === short) return long;
+        long = long.next;
+        short = short.next;
+    }
+    return null;
+    
+}
+
+// Given a Singly Linked List, write a function that returns true if the linked
+// list contains a cycle, or false if terminates somewhere.
+//
+// ------------
+// Constraints:
+// ------------ 
+//
+// (1) Your function must run in linear time, O(n).
+// (2) Your function must use constant space, O(1).
+// (3) Do not mutate the linked list or it's nodes in any way.
+
+function hasCycle(list){
+    let fast = list.head;
+    let slow =list.head;
+    let pause = true;
+    while(fast = fast.next){
+        if(fast === slow) return true;
+        slow = pause ? slow : slow.next;
+        pause = true;
+    }
+    return false;
+} 
+
+/**
+ * Given a linked list, return the node where the cycle begins.
+ *  If there is no cycle, return null.
+Note: Do not modify the linked list.
+ */
+
+ function startOfCycle(list){
+     let head = list.head;
+     if(!head || !head.next) return null;
+     let fast = head.next.next;
+     let slow = head.next;
+     while(fast !== slow){
+         if(!fast || !fast.next) return null;
+         fast = fast.next.next;
+         slow = slow.next;
+     }
+
+     // if code reaches here there's a cycle;
+     slow = head;
+     while (slow !== fast){
+         slow = slow.next;
+         fast = fast.next;
+     }
+     return slow;
+
+ }
