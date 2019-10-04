@@ -163,11 +163,12 @@ function hasCycle(list){
     let head = list.head;
     if (!head) return false;
     if (!head.next) return false;
-    let fast = head.next.next;
-    let slow = head.next;
+    let fast = head.next.next; // set fast to move 2 steps
+    let slow = head.next; // set slow to run 1 step
 
-    while (fast !== slow) {
-        if (!fast || !fast.next) return false;
+    while (fast !== slow) { // if they match there's a cycle
+        if (!fast || !fast.next) return false; // if next pointer of the fast is null
+        // that means linked list is not cyclic;
 
         slow = slow.next;
         fast = fast.next.next;
@@ -213,3 +214,42 @@ Note: Do not modify the linked list.
      return slow;
 
  }
+
+ /**
+  * Given a linked list, swap every two adjacent nodes and return its head.
+
+You may not modify the values in the list's nodes, only nodes itself may be changed.
+
+
+
+Example:
+
+Given 1->2->3->4, you should return the list as 2->1->4->3.
+  */
+
+  function swapIter(head){ // this is intersting solution
+      if(!head || !head.next) return head;
+      let curr = head;
+      let newHead = head.next; // second node will be the head at last
+      while(curr || curr.next){
+            let temp = curr; // save 1st node 
+            curr = curr.next; // update curr to 2nd node
+            temp.next = curr.next; // change the pointer of 1st node to third node
+            // this is so imp to remember because when we do temp.next we will be 
+            // pointing to 3rd node.
+            curr.next = temp; // pointer of 2nd node to 1st node
+            curr = temp.next; // node change curr to 3rd node
+            if(curr && curr.next) temp.next = curr.next; // if 3rd and 4th node still
+            // exist set the pointer of first node to 4th node
+      }
+      return newHead;
+  }
+
+  function swapRecursive(head){ // this is a good case of recursion
+      if(!head || !head.next) return head; // if there's only one node return it
+      let temp = head.next; // second node is the head that we will return 
+      head.next = swapRecursive(head.next.next); // this recursive call return 4th node 
+      // if there is which being pointed by the 1st node.
+      temp.next = head; // reverse the pointer to of 2nd node to the 1st node.
+      return temp; 
+  }
