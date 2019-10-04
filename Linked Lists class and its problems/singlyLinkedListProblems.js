@@ -253,3 +253,77 @@ Given 1->2->3->4, you should return the list as 2->1->4->3.
       temp.next = head; // reverse the pointer to of 2nd node to the 1st node.
       return temp; 
   }
+
+  /**
+   * Given a singly linked list L: L0→L1→…→Ln-1→Ln,
+reorder it to: L0→Ln→L1→Ln-1→L2→Ln-2→…
+
+You may not modify the values in the list's nodes, only nodes itself may be changed.
+
+Example 1:
+
+Given 1->2->3->4, reorder it to 1->4->2->3.
+Example 2:
+
+Given 1->2->3->4->5, reorder it to 1->5->2->4->3.
+   */
+
+var reorderList = function (head) {
+    // this algorithm is more intiutive
+    let map = {}; // create an object to store all the nodes with the key equal to their value
+    for (let i = 1; head; i++) { // fill the object
+        map[i] = head;
+        head = head.next;
+    }
+    // console.log(map)
+    let dummy = new ListNode(0); // create dummy node with 0 value
+    let curr = dummy;
+    let j = Object.keys(map).length; // this is the way to find the length of object
+    // console.log(j)
+    for (let i = 1; i <= j; i++) { // there are two pointer i , j 
+        curr.next = map[i]; // this changes pointer from last to first node
+        if (i !== j) { map[i].next = map[j]; } // this is imp step
+        map[j].next = null; // don't forget this
+        curr = map[j]; // update current to last node
+        j--;
+    }
+};
+
+/**
+ * Given a linked list, remove the n-th node from the end of list and return its head.
+
+Example:
+
+Given linked list: 1->2->3->4->5, and n = 2.
+
+After removing the second node from the end, the linked list becomes 1->2->3->5.
+Note:
+
+Given n will always be valid.
+
+Follow up:
+
+Could you do this in one pass?
+ */
+
+ function removeNthNode(head, n){
+     let dummy = new Node(0);
+     dummy.next = head;
+     let first = dummy;
+     let second = dummy;
+     // first move one pointer to n + 1 position 
+     for(let i = 1; i <= n+1; i++){
+         first = first.next;
+     }
+     // now move both pointers to the whole length of list
+     // so that second pointer is left in n position of the last node
+     // this is clever way to get to nth position from the end 
+
+     while(first){
+         first = first.next;
+         second = second.next;
+     }
+     // now remove the given node.
+     second.next = second.next.next;
+     return dummy.next;
+ }
