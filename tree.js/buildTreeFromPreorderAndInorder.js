@@ -60,3 +60,26 @@ var buildTree = function (inorder, postorder) {
     root.right = buildTree(rightInorder, rightpost);
     return root;
 };
+
+// Given root of the tree find the inorder, preorder and postorder arrays of its values;
+
+function inorderArray(root){
+    if(!root) return [];
+    let left = inorderArray(root.left);
+    let right = inorderArray(root.right);
+    return [...left, root.val,...right];
+}
+
+function postorderArray(root) {
+    if (!root) return [];
+    let left = postorderArray(root.left);
+    let right = postorderArray(root.right);
+    return [...left, ...right, root.val];
+}
+
+function preorderArray(root) {
+    if (!root) return [];
+    let left = preorderArray(root.left);
+    let right = preorderArray(root.right);
+    return [root.val,...left, ...right];
+}
