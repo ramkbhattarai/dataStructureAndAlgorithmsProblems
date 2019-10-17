@@ -15,6 +15,8 @@ Input: nums = [5,7,7,8,8,10], target = 6
 Output: [-1,-1]
  */
 
+
+ // we use binary search algorithm for log(n) time complexity in helper function
 var searchRange = function (nums, target) {
     let ans = [-1, -1];
     let left = helper(nums, target, true);
