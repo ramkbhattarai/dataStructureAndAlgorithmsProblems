@@ -12,5 +12,11 @@ function bfs(node, targetVal){
 }
 
 function dfs(node, targetVal, visited = new Set()){
-
+    if(visited.has(node.val)) return;
+    if(node.val === targetVal) return true;
+    visited.add(node.val);
+    node.neighbors.forEach(ele => {
+        dfs(ele, targetVal, visited);
+    });
+    return true;
 }
